@@ -88,7 +88,9 @@ extra volumes the user may have specified (such as a secret with TLS).
           configMap:
             name: {{ template "vault.fullname" . }}-config
   {{ end }}
+  {{- if .Values.server.extraVolumes }}
   {{- range .Values.server.extraVolumes }}
+        {{/* 
         - name: userconfig-{{ .name }}
           {{ .type }}:
           {{- if (eq .type "configMap") }}
@@ -96,6 +98,9 @@ extra volumes the user may have specified (such as a secret with TLS).
           {{- else if (eq .type "secret") }}
             secretName: {{ .name }}
           {{- end }}
+        */}}
+        - {{ . | toYaml | nindent 10 }}
+  {{- end }}
   {{- end }}
 {{- end -}}
 
@@ -154,10 +159,13 @@ based on the mode configured.
             - name: config
               mountPath: /vault/config
   {{ end }}
-  {{- range .Values.server.extraVolumes }}
-            - name: userconfig-{{ .name }}
+  {{- range .Values.server.extraVolumeMounts }}
+            {{/*
+            - name: {{ .name }}
               readOnly: true
-              mountPath: {{ .path | default "/vault/userconfig" }}/{{ .name }}
+              mountPath: "/vault/userconfig/{{ .name }}
+            */}}
+            - {{ . | toYaml | nindent 14 }}
   {{- end }}
 {{- end -}}
 
@@ -370,13 +378,12 @@ Sets the container resources if the user has set any.
 {{/*
 Inject extra environment vars in the format key:value, if populated
 */}}
-{{- define "vault.extraEnvironmentVars" -}}
-{{- if .extraEnvironmentVars -}}
-{{- range $key, $value := .extraEnvironmentVars }}
-- name: {{ printf "%s" $key | replace "." "_" | upper | quote }}
-  value: {{ $value | quote }}
+{{- define "vault.extraEnvironment" -}}
+{{- if .extraEnvironment }}
+{{- range .extraEnvironment }}
+- {{ . | toYaml}}
 {{- end }}
-{{- end -}}
+{{- end }}
 {{- end -}}
 
 {{/*

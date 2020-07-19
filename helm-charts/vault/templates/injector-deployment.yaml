@@ -76,7 +76,7 @@ spec:
             - name: AGENT_INJECT_SET_SECURITY_CONTEXT
               value: "false"
             {{- end }}
-            {{- include "vault.extraEnvironmentVars" .Values.injector | nindent 12 }}
+            {{- include "vault.extraEnvironment" .Values.injector | nindent 12 }}
           args:
             - agent-inject
             - 2>&1
