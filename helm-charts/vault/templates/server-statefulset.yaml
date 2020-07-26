@@ -32,7 +32,10 @@ spec:
         {{- if  .Values.server.extraLabels -}}
           {{- toYaml .Values.server.extraLabels | nindent 8 -}}
         {{- end -}}
-      {{ template "vault.annotations" . }}
+      {{- if .Values.server.annotations }}
+      annotations:
+        {{ tpl .Values.server.annotations . | nindent 8 }}
+      {{- end }}
     spec:
       {{ template "vault.affinity" . }}
       {{ template "vault.tolerations" . }}
