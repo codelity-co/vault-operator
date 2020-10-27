@@ -67,6 +67,6 @@ rules:
   verbs: ["get", "list", "watch", "create", "update", "delete", "patch"]
 
 - apiGroups: ["helm.operator-sdk"]
-  resources: ["vault", "vault/status"]
+  resources: ["vaults", "vaults/status"]
   verbs: ["get", "list", "watch", "create", "update", "delete", "patch"]
 
