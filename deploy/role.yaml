@@ -66,7 +66,7 @@ rules:
   resources: ["roles", "rolebindings"]
   verbs: ["get", "list", "watch", "create", "update", "delete", "patch"]
 
-- apiGroups: ["charts.helm.k8s.io"]
-  resources: ["*"]
+- apiGroups: ["helm.operator-sdk"]
+  resources: ["vault", "vault/status"]
   verbs: ["get", "list", "watch", "create", "update", "delete", "patch"]
 

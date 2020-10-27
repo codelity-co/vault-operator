@@ -16,7 +16,7 @@ spec:
       containers:
         - name: vault-operator
           # Replace this with the built image name
-          image: gcr.io/codelity-co/vault-operator:v0.2.13
+          image: gcr.io/codelity-co/vault-operator:v0.3.0
           imagePullPolicy: Always
           env:
             - name: WATCH_NAMESPACE
